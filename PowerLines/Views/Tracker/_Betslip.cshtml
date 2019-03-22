@@ -1,0 +1,69 @@
+﻿@model PowerLines.Models.ViewModels.Betslip
+
+@{
+    Layout = null;
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Betslip</h3>
+    </div>
+    <div class="panel-body">
+        <p><strong>@Html.DisplayFor(model => model.Description)</strong></p>
+        <p>@Html.DisplayFor(model => model.Fixture.HomeTeam) v @Html.DisplayFor(model => model.Fixture.AwayTeam)</p>
+        <dl>
+            <dt>@Html.DisplayNameFor(model => model.MarketOdds)</dt>
+            <dd>@Html.TextBoxFor(model => model.MarketOdds, new { @class = "form-control", @id = "market-odds", @Value="", @data_odds = Model.Odds, @data_fixture = Model.Fixture.FixtureId, @data_outcome = Model.Predicted, @onClick = "this.select()", autocomplete = "off" })</dd>
+        </dl>
+        <div id="recomendation"></div>
+        <span class="btn-group">
+            <input id="place-bet" class="btn btn-success" value="Place Bet" type="button" disabled />
+            <input id="cancel-bet" class="btn btn-danger" value="Cancel" type="button" />
+        </span>
+    </div>
+</div>
+
+<script>
+    $('#cancel-bet').click(function () {
+        $('#bet-slip').empty();
+    });
+
+    $('#market-odds').on('input', function () {
+        var outcome = $(this).data('outcome');
+        var marketOdds = $(this).val();
+        var odds = $(this).data('odds');
+
+        if ($.isNumeric(marketOdds) && marketOdds > 0) {
+            $.ajax({
+                type: "GET",
+                url: "Tracker/Recommendation",
+                data: { outcome:outcome, marketOdds: marketOdds, odds: odds },
+                traditional: true,
+                success: function (result) {
+                    $('#recomendation').html(result);
+                }
+            });
+        }
+    });
+
+    $('#place-bet').click(function () {
+        
+        var marketOdds = $('#market-odds').val();
+        var odds = $('#market-odds').data('odds');
+        var fixtureId = $('#market-odds').data('fixture');
+        var outcome = $('#market-odds').data('outcome');
+        var balance = $('#current-balance').val();
+        
+        if ($.isNumeric(marketOdds) && marketOdds > 1 && balance != null) {
+            $.ajax({
+                type: "POST",
+                url: "Tracker/Betslip",
+                data: { fixtureId: fixtureId, outcome: outcome, marketOdds: marketOdds, odds: odds, balance : balance },
+                traditional: true,
+                success: function (result) {
+                    $('#bet-slip').html(result);
+                }
+            });
+        }
+    });
+</script>

@@ -1,0 +1,236 @@
+﻿@model PowerLines.Models.ViewModels.Analysis
+
+<h2>Algorithm Anaylsis</h2>
+
+@if (Model.OverallAnalysis.Fixtures == 0)
+{
+    <h3>Insufficient data for analysis...</h3>
+}
+else
+{
+    <div class="row" style="margin-top:20px;">
+        <div class="col-md-12">
+            <select id="bet-type" class="form-control">
+                <option value="ftr" selected>Full Time Result</option>
+                <option value="btts">Both Teams To Score</option>
+                <option value="twogoals">Over 1.5 Goals</option>
+                <option value="threegoals">Over 2.5 Goals</option>
+            </select>
+        </div>
+    </div>
+
+    <h3 class="ftr">Full Time Result</h3>
+    <h3 class="btts">Both Teams to Score</h3>
+    <h3 class="twogoals">Over 1.5 Goals</h3>
+    <h3 class="threegoals">Over 2.5 Goals</h3>
+
+    <table class="table table-condensed table-hover">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.OverallAnalysis.Fixtures)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.OverallAnalysis.Recommended)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.OverallAnalysis.Correct)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.OverallAnalysis.Accuracy)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.OverallAnalysis.AccuracyBase)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.OverallAnalysis.LowerRecommended)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.OverallAnalysis.LowerCorrect)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.OverallAnalysis.LowerAccuracy)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.OverallAnalysis.LowerAccuracyBase)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.OverallAnalysis.GeneralCorrect)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.OverallAnalysis.GeneralAccuracy)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.OverallAnalysis.GeneralAccuracyBase)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.OverallAnalysis.HomeAccuracy)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.OverallAnalysis.DrawAccuracy)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.OverallAnalysis.AwayAccuracy)</th>
+            <th class="btts">@Html.DisplayNameFor(model => model.OverallAnalysis.RecommendedBTTS)</th>
+            <th class="btts">@Html.DisplayNameFor(model => model.OverallAnalysis.CorrectBTTS)</th>
+            <th class="btts">@Html.DisplayNameFor(model => model.OverallAnalysis.AccuracyBTTS)</th>
+            <th class="btts">@Html.DisplayNameFor(model => model.OverallAnalysis.LowerRecommendedBTTS)</th>
+            <th class="btts">@Html.DisplayNameFor(model => model.OverallAnalysis.LowerCorrectBTTS)</th>
+            <th class="btts">@Html.DisplayNameFor(model => model.OverallAnalysis.LowerAccuracyBTTS)</th>
+            <th class="btts">@Html.DisplayNameFor(model => model.OverallAnalysis.GeneralCorrectBTTS)</th>
+            <th class="btts">@Html.DisplayNameFor(model => model.OverallAnalysis.GeneralAccuracyBTTS)</th>
+            <th class="twogoals">@Html.DisplayNameFor(model => model.OverallAnalysis.RecommendedTwoGoals)</th>
+            <th class="twogoals">@Html.DisplayNameFor(model => model.OverallAnalysis.CorrectTwoGoals)</th>
+            <th class="twogoals">@Html.DisplayNameFor(model => model.OverallAnalysis.AccuracyTwoGoals)</th>
+            <th class="twogoals">@Html.DisplayNameFor(model => model.OverallAnalysis.LowerRecommendedTwoGoals)</th>
+            <th class="twogoals">@Html.DisplayNameFor(model => model.OverallAnalysis.LowerCorrectTwoGoals)</th>
+            <th class="twogoals">@Html.DisplayNameFor(model => model.OverallAnalysis.LowerAccuracyTwoGoals)</th>
+            <th class="twogoals">@Html.DisplayNameFor(model => model.OverallAnalysis.GeneralCorrectTwoGoals)</th>
+            <th class="twogoals">@Html.DisplayNameFor(model => model.OverallAnalysis.GeneralAccuracyTwoGoals)</th>
+            <th class="threegoals">@Html.DisplayNameFor(model => model.OverallAnalysis.RecommendedThreeGoals)</th>
+            <th class="threegoals">@Html.DisplayNameFor(model => model.OverallAnalysis.CorrectThreeGoals)</th>
+            <th class="threegoals">@Html.DisplayNameFor(model => model.OverallAnalysis.AccuracyThreeGoals)</th>
+            <th class="threegoals">@Html.DisplayNameFor(model => model.OverallAnalysis.LowerRecommendedThreeGoals)</th>
+            <th class="threegoals">@Html.DisplayNameFor(model => model.OverallAnalysis.LowerCorrectThreeGoals)</th>
+            <th class="threegoals">@Html.DisplayNameFor(model => model.OverallAnalysis.LowerAccuracyThreeGoals)</th>
+            <th class="threegoals">@Html.DisplayNameFor(model => model.OverallAnalysis.GeneralCorrectThreeGoals)</th>
+            <th class="threegoals">@Html.DisplayNameFor(model => model.OverallAnalysis.GeneralAccuracyThreeGoals)</th>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.OverallAnalysis.Fixtures)</td>
+            <td class="ftr">@Html.DisplayFor(model => model.OverallAnalysis.Recommended)</td>
+            <td class="ftr">@Html.DisplayFor(model => model.OverallAnalysis.Correct)</td>
+            <td class="ftr">@Html.DisplayFor(model => model.OverallAnalysis.Accuracy)%</td>
+            <td class="ftr">@Html.DisplayFor(model => model.OverallAnalysis.AccuracyBase)%</td>
+            <td class="ftr">@Html.DisplayFor(model => model.OverallAnalysis.LowerRecommended)</td>
+            <td class="ftr">@Html.DisplayFor(model => model.OverallAnalysis.LowerCorrect)</td>
+            <td class="ftr">@Html.DisplayFor(model => model.OverallAnalysis.LowerAccuracy)%</td>
+            <td class="ftr">@Html.DisplayFor(model => model.OverallAnalysis.LowerAccuracyBase)%</td>
+            <td class="ftr">@Html.DisplayFor(model => model.OverallAnalysis.GeneralCorrect)</td>
+            <td class="ftr">@Html.DisplayFor(model => model.OverallAnalysis.GeneralAccuracy)%</td>
+            <td class="ftr">@Html.DisplayFor(model => model.OverallAnalysis.GeneralAccuracyBase)%</td>
+            <td class="ftr">@Html.DisplayFor(model => model.OverallAnalysis.HomeAccuracy)%</td>
+            <td class="ftr">@Html.DisplayFor(model => model.OverallAnalysis.DrawAccuracy)%</td>
+            <td class="ftr">@Html.DisplayFor(model => model.OverallAnalysis.AwayAccuracy)%</td>
+            <td class="btts">@Html.DisplayFor(model => model.OverallAnalysis.RecommendedBTTS)</td>
+            <td class="btts">@Html.DisplayFor(model => model.OverallAnalysis.CorrectBTTS)</td>
+            <td class="btts">@Html.DisplayFor(model => model.OverallAnalysis.AccuracyBTTS)%</td>
+            <td class="btts">@Html.DisplayFor(model => model.OverallAnalysis.LowerRecommendedBTTS)</td>
+            <td class="btts">@Html.DisplayFor(model => model.OverallAnalysis.LowerCorrectBTTS)</td>
+            <td class="btts">@Html.DisplayFor(model => model.OverallAnalysis.LowerAccuracyBTTS)%</td>
+            <td class="btts">@Html.DisplayFor(model => model.OverallAnalysis.GeneralCorrectBTTS)</td>
+            <td class="btts">@Html.DisplayFor(model => model.OverallAnalysis.GeneralAccuracyBTTS)%</td>
+            <td class="twogoals">@Html.DisplayFor(model => model.OverallAnalysis.RecommendedTwoGoals)</td>
+            <td class="twogoals">@Html.DisplayFor(model => model.OverallAnalysis.CorrectTwoGoals)</td>
+            <td class="twogoals">@Html.DisplayFor(model => model.OverallAnalysis.AccuracyTwoGoals)%</td>
+            <td class="twogoals">@Html.DisplayFor(model => model.OverallAnalysis.LowerRecommendedTwoGoals)</td>
+            <td class="twogoals">@Html.DisplayFor(model => model.OverallAnalysis.LowerCorrectTwoGoals)</td>
+            <td class="twogoals">@Html.DisplayFor(model => model.OverallAnalysis.LowerAccuracyTwoGoals)%</td>
+            <td class="twogoals">@Html.DisplayFor(model => model.OverallAnalysis.GeneralCorrectTwoGoals)</td>
+            <td class="twogoals">@Html.DisplayFor(model => model.OverallAnalysis.GeneralAccuracyTwoGoals)%</td>
+            <td class="threegoals">@Html.DisplayFor(model => model.OverallAnalysis.RecommendedThreeGoals)</td>
+            <td class="threegoals">@Html.DisplayFor(model => model.OverallAnalysis.CorrectThreeGoals)</td>
+            <td class="threegoals">@Html.DisplayFor(model => model.OverallAnalysis.AccuracyThreeGoals)%</td>
+            <td class="threegoals">@Html.DisplayFor(model => model.OverallAnalysis.LowerRecommendedThreeGoals)</td>
+            <td class="threegoals">@Html.DisplayFor(model => model.OverallAnalysis.LowerCorrectThreeGoals)</td>
+            <td class="threegoals">@Html.DisplayFor(model => model.OverallAnalysis.LowerAccuracyThreeGoals)%</td>
+            <td class="threegoals">@Html.DisplayFor(model => model.OverallAnalysis.GeneralCorrectThreeGoals)</td>
+            <td class="threegoals">@Html.DisplayFor(model => model.OverallAnalysis.GeneralAccuracyThreeGoals)%</td>
+        </tr>
+    </table>
+
+    <table class="table table-condensed table-hover">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.LeagueAnalysis[0].DivisionName)</th>
+            <th>@Html.DisplayNameFor(model => model.LeagueAnalysis[0].Fixtures)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].Recommended)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].Correct)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].Accuracy)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].AccuracyBase)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].LowerRecommended)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].LowerCorrect)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].LowerAccuracy)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].LowerAccuracyBase)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].GeneralCorrect)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].GeneralAccuracy)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].GeneralAccuracyBase)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].HomeAccuracy)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].DrawAccuracy)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].AwayAccuracy)</th>
+            <th class="btts">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].RecommendedBTTS)</th>
+            <th class="btts">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].CorrectBTTS)</th>
+            <th class="btts">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].AccuracyBTTS)</th>
+            <th class="btts">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].LowerRecommendedBTTS)</th>
+            <th class="btts">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].LowerCorrectBTTS)</th>
+            <th class="btts">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].LowerAccuracyBTTS)</th>
+            <th class="btts">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].GeneralCorrectBTTS)</th>
+            <th class="btts">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].GeneralAccuracyBTTS)</th>
+            <th class="twogoals">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].RecommendedTwoGoals)</th>
+            <th class="twogoals">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].CorrectTwoGoals)</th>
+            <th class="twogoals">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].AccuracyTwoGoals)</th>
+            <th class="twogoals">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].LowerRecommendedTwoGoals)</th>
+            <th class="twogoals">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].LowerCorrectTwoGoals)</th>
+            <th class="twogoals">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].LowerAccuracyTwoGoals)</th>
+            <th class="twogoals">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].GeneralCorrectTwoGoals)</th>
+            <th class="twogoals">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].GeneralAccuracyTwoGoals)</th>
+            <th class="threegoals">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].RecommendedThreeGoals)</th>
+            <th class="threegoals">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].CorrectThreeGoals)</th>
+            <th class="threegoals">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].AccuracyThreeGoals)</th>
+            <th class="threegoals">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].LowerRecommendedThreeGoals)</th>
+            <th class="threegoals">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].LowerCorrectThreeGoals)</th>
+            <th class="threegoals">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].LowerAccuracyThreeGoals)</th>
+            <th class="threegoals">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].GeneralCorrectThreeGoals)</th>
+            <th class="threegoals">@Html.DisplayNameFor(model => model.LeagueAnalysis[0].GeneralAccuracyThreeGoals)</th>
+        </tr>
+        @foreach (var league in Model.LeagueAnalysis.OrderBy(x => x.Division))
+        {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => league.DivisionName)</td>
+            <td>@Html.DisplayFor(modelItem => league.Fixtures)</td>
+            <td class="ftr">@Html.DisplayFor(modelItem => league.Recommended)</td>
+            <td class="ftr">@Html.DisplayFor(modelItem => league.Correct)</td>
+            <td class="ftr">@Html.DisplayFor(modelItem => league.Accuracy)%</td>
+            <td class="ftr">@Html.DisplayFor(modelItem => league.AccuracyBase)%</td>
+            <td class="ftr">@Html.DisplayFor(modelItem => league.LowerRecommended)</td>
+            <td class="ftr">@Html.DisplayFor(modelItem => league.LowerCorrect)</td>
+            <td class="ftr">@Html.DisplayFor(modelItem => league.LowerAccuracy)%</td>
+            <td class="ftr">@Html.DisplayFor(modelItem => league.LowerAccuracyBase)%</td>
+            <td class="ftr">@Html.DisplayFor(modelItem => league.GeneralCorrect)</td>
+            <td class="ftr">@Html.DisplayFor(modelItem => league.GeneralAccuracy)%</td>
+            <td class="ftr">@Html.DisplayFor(modelItem => league.GeneralAccuracyBase)%</td>
+            <td class="ftr">@Html.DisplayFor(modelItem => league.HomeAccuracy)%</td>
+            <td class="ftr">@Html.DisplayFor(modelItem => league.DrawAccuracy)%</td>
+            <td class="ftr">@Html.DisplayFor(modelItem => league.AwayAccuracy)%</td>
+            <td class="btts">@Html.DisplayFor(modelItem => league.RecommendedBTTS)</td>
+            <td class="btts">@Html.DisplayFor(modelItem => league.CorrectBTTS)</td>
+            <td class="btts">@Html.DisplayFor(modelItem => league.AccuracyBTTS)%</td>
+            <td class="btts">@Html.DisplayFor(modelItem => league.LowerRecommendedBTTS)</td>
+            <td class="btts">@Html.DisplayFor(modelItem => league.LowerCorrectBTTS)</td>
+            <td class="btts">@Html.DisplayFor(modelItem => league.LowerAccuracyBTTS)%</td>
+            <td class="btts">@Html.DisplayFor(modelItem => league.GeneralCorrectBTTS)</td>
+            <td class="btts">@Html.DisplayFor(modelItem => league.GeneralAccuracyBTTS)%</td>
+            <td class="twogoals">@Html.DisplayFor(modelItem => league.RecommendedTwoGoals)</td>
+            <td class="twogoals">@Html.DisplayFor(modelItem => league.CorrectTwoGoals)</td>
+            <td class="twogoals">@Html.DisplayFor(modelItem => league.AccuracyTwoGoals)%</td>
+            <td class="twogoals">@Html.DisplayFor(modelItem => league.LowerRecommendedTwoGoals)</td>
+            <td class="twogoals">@Html.DisplayFor(modelItem => league.LowerCorrectTwoGoals)</td>
+            <td class="twogoals">@Html.DisplayFor(modelItem => league.LowerAccuracyTwoGoals)%</td>
+            <td class="twogoals">@Html.DisplayFor(modelItem => league.GeneralCorrectTwoGoals)</td>
+            <td class="twogoals">@Html.DisplayFor(modelItem => league.GeneralAccuracyTwoGoals)%</td>
+            <td class="threegoals">@Html.DisplayFor(modelItem => league.RecommendedThreeGoals)</td>
+            <td class="threegoals">@Html.DisplayFor(modelItem => league.CorrectThreeGoals)</td>
+            <td class="threegoals">@Html.DisplayFor(modelItem => league.AccuracyThreeGoals)%</td>
+            <td class="threegoals">@Html.DisplayFor(modelItem => league.LowerRecommendedThreeGoals)</td>
+            <td class="threegoals">@Html.DisplayFor(modelItem => league.LowerCorrectThreeGoals)</td>
+            <td class="threegoals">@Html.DisplayFor(modelItem => league.LowerAccuracyThreeGoals)%</td>
+            <td class="threegoals">@Html.DisplayFor(modelItem => league.GeneralCorrectThreeGoals)</td>
+            <td class="threegoals">@Html.DisplayFor(modelItem => league.GeneralAccuracyThreeGoals)%</td>
+        </tr>
+        }
+    </table>
+}
+
+<script>
+    $(function () {
+        $('#bet-type').change(function () {
+            if ($(this).val() == 'ftr') {
+                $('.btts').hide();
+                $('.twogoals').hide();
+                $('.threegoals').hide();
+                $('.ftr').fadeIn();
+            }
+            else if ($(this).val() == 'btts') {
+                $('.ftr').hide();
+                $('.twogoals').hide();
+                $('.threegoals').hide();
+                $('.btts').fadeIn();
+            }
+            else if ($(this).val() == 'twogoals') {
+                $('.ftr').hide();
+                $('.btts').hide();
+                $('.threegoals').hide();
+                $('.twogoals').fadeIn();
+            }
+            else if ($(this).val() == 'threegoals') {
+                $('.ftr').hide();
+                $('.btts').hide();
+                $('.twogoals').hide();
+                $('.threegoals').fadeIn();
+            }
+        });
+    });
+
+    $(function () {
+        $('#bet-type').trigger('change');
+    })
+</script>

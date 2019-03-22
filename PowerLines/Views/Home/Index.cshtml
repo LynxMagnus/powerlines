@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Power Lines";
+}
+
+<div class="jumbotron">
+    <h1>Power Lines <img style="margin-bottom:10px;" src="~/Content/Images/Logo.png" /></h1>
+    <p class="lead">Calculates odds and get betting recommendations for the latest football fixtures.</p>
+    <button class="btn btn-primary btn-lg" onclick="window.location.href='@Url.Action("Index", "Rating")'" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Calculating...">Calculate Fixtures</button>
+
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="row">
+            @using (Html.BeginForm("Upload", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="col-md-4">
+                    @Html.AntiForgeryToken()
+
+                    <h3>Upload Results</h3>
+                    <p>Upload updated result data for improved algorithm accuracy.</p>
+                    <span class="btn-group">
+                        <button type="submit" value="All Seasons" name="submit" class="btn btn-default" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Uploading...">All Seasons</button>
+                        <button type="submit" value="Current Season" name="submit" class="btn btn-default" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Uploading...">Current Season</button>
+                    </span>
+                </div>
+
+                <div class="col-md-4">
+                    <h3>Upload Fixtures</h3>
+                    <p>Upload latest fixtures for analysis and odds calculation.</p>
+                    <button type="submit" value="Latest Fixtures" name="submit" class="btn btn-default" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Uploading...">Latest Fixtures</button>
+                </div>
+            }
+
+            <div class="col-md-4">
+                <h3>Analyse Algorthim</h3>
+                <p>Run analysis of accuracy of current odds calculation algorithm.</p>
+                <span class="btn-group">
+                    <button class="btn btn-default" onclick="window.location.href='@Url.Action("Analysis", "Rating")'" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Analysing...">Run Analysis</button>
+                    <button class="btn btn-danger" onclick="window.location.href='@Url.Action("Analysis", "Rating", new { reset = true })'" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Analysing...">Reset Datasets</button>
+                </span>
+            </div>
+        </div>
+
+        if (TempData["Message"] != null)
+        {
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="alert alert-dismissible alert-success" style="margin-top:30px;">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <p>@TempData["Message"]</p>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+<script>
+    $('button').click(function () {
+        $(this).button('loading');
+    });
+</script>

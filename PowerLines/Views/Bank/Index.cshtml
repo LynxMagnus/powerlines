@@ -1,0 +1,32 @@
+﻿@model PowerLines.Models.Bank
+
+@{
+    ViewBag.Title = "Bankroll";
+}
+
+<h2>Bankroll</h2>
+
+<p>Current Balance: £@Model.Balance</p>
+<p>
+    @Html.ActionLink("Deposit", "Transaction", new { bankId = Model.BankId, type = "Deposit" }) |
+    @Html.ActionLink("Withdraw", "Transaction", new { bankId = Model.BankId, type = "Withdraw" })
+</p>
+
+@if (Model.Transactions.Count > 0)
+{
+    <table class="table table-condensed table-hover">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Transactions[0].Date)</th>
+            <th>@Html.DisplayNameFor(model => model.Transactions[0].Description)</th>
+            <th>@Html.DisplayNameFor(model => model.Transactions[0].Value)</th>
+        </tr>
+        @foreach (var transaction in Model.Transactions.OrderByDescending(x=>x.Date))
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => transaction.Date)</td>
+                <td>@Html.DisplayFor(modelItem => transaction.Description)</td>
+                <td>@Html.DisplayFor(modelItem => transaction.Value)</td>
+            </tr>
+        }
+    </table>
+}

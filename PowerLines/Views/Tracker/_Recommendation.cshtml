@@ -1,0 +1,26 @@
+﻿@model PowerLines.Models.Tracker
+
+@{
+    Layout = null;
+}
+
+@if (Model.ValidMargin)
+{
+    <p>Bet £@Model.Stake on this outcome for potential winnings of £@Model.Potential</p>
+
+    @Html.HiddenFor(Model => Model.Bank, new { @id = "current-balance" })
+}
+else
+{
+    <p class="text-danger">No value in this outcome.</p>
+}
+
+<script>
+    $(function () {
+        if ($('#current-balance').val() == null) {
+            $('#place-bet').prop('disabled', true);
+        } else {
+            $('#place-bet').prop('disabled', false);
+        }
+    });
+</script>

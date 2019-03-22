@@ -1,0 +1,231 @@
+﻿@model List<PowerLines.Models.Tracker>
+
+@{
+    ViewBag.Title = "Tracker";
+}
+
+<h2>Betting Tracker</h2>
+
+@if (Model.Count == 0)
+{
+    <h3>No bets placed.</h3>
+}
+else
+{
+    <h3>Summary</h3>
+
+    <table class="table table-condensed">
+        <tr>
+            <th></th>
+            <th>Bets</th>
+            <th>Settled</th>
+            <th class="no-mobile">Wins</th>
+            <th class="no-mobile">Staked</th>
+            <th class="no-mobile">Returns</th>
+            <th>Profit</th>
+            <th>In Play</th>
+            <th class="no-mobile">Staked</th>
+            <th>Potential</th>
+        </tr>
+        <tr>
+            <td><strong>Overall</strong></td>
+            <td>@Model.Count</td>
+            <td>@Model.Where(x => x.IsComplete).Count()</td>
+            <td class="no-mobile">@Model.Where(x => x.IsWin).Count()</td>
+            <td class="no-mobile">£@Model.Sum(x => x.Stake)</td>
+            <td class="no-mobile">£@Model.Where(x => x.IsComplete && x.IsWin).Sum(x => x.Potential)</td>
+            <td>£@Model.Where(x => x.IsComplete).Sum(x => x.ProfitLoss)</td>
+            <td>@Model.Where(x => !x.IsComplete).Count()</td>
+            <td class="no-mobile">£@Model.Where(x => !x.IsComplete).Sum(x => x.Stake)</td>
+            <td>£@Model.Where(x => !x.IsComplete).Sum(x => x.Potential)</td>
+        </tr>
+        <tr>
+            <td><strong>Today</strong></td>
+            <td>@Model.Where(x => x.IsToday).Count()</td>
+            <td>@Model.Where(x => x.IsComplete && x.IsToday).Count()</td>
+            <td class="no-mobile">@Model.Where(x => x.IsWin && x.IsToday).Count()</td>
+            <td class="no-mobile">£@Model.Where(x => x.IsToday).Sum(x => x.Stake)</td>
+            <td class="no-mobile">£@Model.Where(x => x.IsComplete && x.IsWin && x.IsToday).Sum(x => x.Potential)</td>
+            <td>£@Model.Where(x => x.IsComplete && x.IsToday).Sum(x => x.ProfitLoss)</td>
+            <td>@Model.Where(x => !x.IsComplete && x.IsToday).Count()</td>
+            <td class="no-mobile">£@Model.Where(x => !x.IsComplete && x.IsToday).Sum(x => x.Stake)</td>
+            <td>£@Model.Where(x => !x.IsComplete && x.IsToday).Sum(x => x.Potential)</td>
+        </tr>
+    </table>
+
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row" style="margin-bottom:10px;">
+            <div class="col-md-12">
+                <button class="btn btn-success pull-right" type="submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Saving..." >Save Changes</button>
+            </div>
+        </div>
+
+        <table class="table table-condensed table-hover">
+            <tr>
+                <th class="no-mobile">
+                    @Html.DisplayNameFor(model => model[0].Date)
+                </th>
+                <th>
+                    Fixture
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Predicted)
+                </th>
+                <th class="no-mobile">
+                    @Html.DisplayNameFor(model => model[0].MarketOdds)
+                </th>
+                <th class="no-mobile">
+                    @Html.DisplayNameFor(model => model[0].Odds)
+                </th>
+                <th class="no-mobile">
+                    @Html.DisplayNameFor(model => model[0].Bank)
+                </th>
+                <th class="no-mobile">
+                    @Html.DisplayNameFor(model => model[0].Reducer)
+                </th>
+                <th class="no-mobile">
+                    @Html.DisplayNameFor(model => model[0].MarketPercent)
+                </th>
+                <th class="no-mobile">
+                    @Html.DisplayNameFor(model => model[0].Percent)
+                </th>
+                <th class="no-mobile">
+                    @Html.DisplayNameFor(model => model[0].Margin)
+                </th>
+                <th class="no-mobile">
+                    @Html.DisplayNameFor(model => model[0].Stake)
+                </th>
+                <th class="no-mobile">
+                    @Html.DisplayNameFor(model => model[0].Potential)
+                </th>
+                <th class="no-mobile">
+                    @Html.DisplayNameFor(model => model[0].Profit)
+                </th>
+                <th class="no-mobile">
+                    @Html.DisplayNameFor(model => model[0].ReturnOnInvestment)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Result)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].ProfitLoss)
+                </th>
+                <th></th>
+            </tr>
+
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                @Html.HiddenFor(model => model[i].TrackerId)
+                <tr>
+                    <td class="no-mobile">
+                        @Html.DisplayFor(model => model[i].Date)
+                        @if (Model[i].IsToday && !Model[i].IsComplete)
+                        {
+                            @: <span class="glyphicon glyphicon-time"></span>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model[i].HomeTeam) vs @Html.DisplayFor(model => model[i].AwayTeam)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model[i].Predicted)
+                    </td>
+                    <td class="no-mobile">
+                        @Html.DisplayFor(model => model[i].MarketOdds)
+                    </td>
+                    <td class="no-mobile">
+                        @Html.DisplayFor(model => model[i].Odds)
+                    </td>
+                    <td class="no-mobile">
+                        £@Html.DisplayFor(model => model[i].Bank)
+                    </td>
+                    <td class="no-mobile">
+                        @Html.DisplayFor(model => model[i].Reducer)%
+                    </td>
+                    <td class="no-mobile">
+                        @Html.DisplayFor(model => model[i].MarketPercent)%
+                    </td>
+                    <td class="no-mobile">
+                        @Html.DisplayFor(model => model[i].Percent)%
+                    </td>
+                    <td class="no-mobile">
+                        @Html.DisplayFor(model => model[i].Margin)%
+                    </td>
+                    <td class="no-mobile">
+                        £@Html.DisplayFor(model => model[i].Stake)
+                    </td>
+                    <td class="no-mobile">
+                        £@Html.DisplayFor(model => model[i].Potential)
+                    </td>
+                    <td class="no-mobile">
+                        £@Html.DisplayFor(model => model[i].Profit)
+                    </td>
+                    <td class="no-mobile">
+                        @Html.DisplayFor(model => model[i].ReturnOnInvestment)%
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model[i].Result, new List<SelectListItem>() {new SelectListItem { Value = "", Text = "" },
+                                                                                                new SelectListItem { Value = "H", Text = "H", Selected = Model[i].Result == "H" },
+                                                                                                new SelectListItem { Value = "D", Text = "D", Selected = Model[i].Result == "D" },
+                                                                                                new SelectListItem { Value = "A", Text = "A", Selected = Model[i].Result == "A" }}, new { @class = "form-control input-sm result-selection", @data_id = Model[i].TrackerId })
+
+                    </td>
+                    <td>
+                        @if (Model[i].Result != null)
+                        {
+                            <span class="@(Model[i].IsWin ? "text-success" : "text-danger")"><span class="glyphicon @(Model[i].IsWin ? "glyphicon-arrow-up" : "glyphicon-arrow-down")"></span> £@Html.DisplayFor(model => model[i].ProfitLoss)</span>
+                        }
+                    </td>
+                    <td><a data-toggle="modal" href="#delete-modal" class="delete" data-id="@Model[i].TrackerId">Delete</a></td>
+                </tr>
+            }
+        </table>
+    }
+    <div class="modal fade" id="delete-modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete bet?</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you wish to delete this bet?</p>
+                    <p>Your stake will be refunded to your balance.</p>
+                    <p class="text-danger">You will not be able to undo this action.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-id="" id="delete-confirm">Confirm</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('.delete').click(function () {
+            var trackerId = $(this).data('id');
+            $('#delete-confirm').data('id', trackerId)
+        });
+
+        $('#delete-confirm').click(function () {
+            var trackerId = $(this).data('id');
+
+            $.ajax({
+                type: "POST",
+                url: "Tracker/Delete",
+                data: { trackerId: trackerId },
+                traditional: true,
+                success: function (result) {
+                    location.reload();
+                }
+            });
+        });
+
+        $('button').click(function () {
+            $(this).button('loading');
+        });
+    </script>
+}

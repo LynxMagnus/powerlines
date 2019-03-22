@@ -1,0 +1,179 @@
+﻿@model List<PowerLines.Models.ViewModels.FixtureRating>
+
+@if (Model.Count == 0)
+{
+    <h3>New fixtures coming soon...</h3>
+}
+else
+{
+    <div class="row" style="margin-top:20px;">
+        <div class="col-md-12">
+            <select id="bet-type" class="form-control">
+                <option value="ftr" selected>Full Time Result</option>
+                <option value="btts">Both Teams To Score</option>
+                <option value="twogoals">Over 1.5 Goals</option>
+                <option value="threegoals">Over 2.5 Goals</option>
+            </select>
+        </div>
+    </div>
+
+    <h3 class="ftr">Full Time Result</h3>
+    <h3 class="btts" style="display:none;">Both Teams to Score</h3>
+    <h3 class="twogoals" style="display:none;">Over 1.5 Goals</h3>
+    <h3 class="threegoals" style="display:none;">Over 2.5 Goals</h3>
+
+    if (Model.Select(x => x.Fixture.Date).Distinct().Count() > 1)
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="btn-group btn-group-justified">
+                    @foreach (var date in Model.Select(x => x.Fixture.Date).Distinct())
+                    {
+                        <a href="#" class="btn btn-default date-picker" data-id="@date.Date" id="@(date.Date == DateTime.Now.Date ? "today-id" : "")">@(date == DateTime.Now.Date ? "Today" : date.ToString("d MMM"))</a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+    <table class="table table-condensed table-hover">
+        <tr>
+            <th class="text-center no-mobile">@Html.DisplayNameFor(model => model[0].Fixture.Date)</th>
+            <th class="no-mobile">@Html.DisplayNameFor(model => model[0].Fixture.DivisionName)</th>
+            <th>Fixture</th>
+            <th class="text-center ftr">@Html.DisplayNameFor(model => model[0].HomeOdds)</th>
+            <th class="text-center ftr">@Html.DisplayNameFor(model => model[0].DrawOdds)</th>
+            <th class="text-center ftr">@Html.DisplayNameFor(model => model[0].AwayOdds)</th>
+            <th class="text-center btts" style="display:none;">@Html.DisplayNameFor(model => model[0].BothTeamsScoreYesOdds)</th>
+            <th class="text-center btts" style="display:none;">@Html.DisplayNameFor(model => model[0].BothTeamsScoreNoOdds)</th>
+            <th class="text-center twogoals" style="display:none;">@Html.DisplayNameFor(model => model[0].TwoGoalsYesOdds)</th>
+            <th class="text-center twogoals" style="display:none;">@Html.DisplayNameFor(model => model[0].TwoGoalsNoOdds)</th>
+            <th class="text-center threegoals" style="display:none;">@Html.DisplayNameFor(model => model[0].ThreeGoalsYesOdds)</th>
+            <th class="text-center threegoals" style="display:none;">@Html.DisplayNameFor(model => model[0].ThreeGoalsNoOdds)</th>
+        </tr>
+        @foreach (var fixtureRating in Model)
+        {
+            <tr class="odds-line" data-id="@fixtureRating.Fixture.Date">
+                <td class="text-center no-mobile">@Html.DisplayFor(modelItem => fixtureRating.Fixture.Date)</td>
+                <td class="no-mobile">@Html.DisplayFor(modelItem => fixtureRating.Fixture.DivisionName)</td>
+                <td>@Html.DisplayFor(modelItem => fixtureRating.Fixture.HomeTeam) v @Html.DisplayFor(modelItem => fixtureRating.Fixture.AwayTeam)</td>
+                <td class="text-center ftr"><span data-id="@fixtureRating.Fixture.FixtureId" data-outcome="H" data-odds="@fixtureRating.HomeOdds" class="selector btn @(fixtureRating.Valid == false ? "btn-default disabled" : fixtureRating.HomeOdds == 0 ? "btn-danger" : fixtureRating.Recommended == "H" ? "btn-success" : fixtureRating.LowerRecommended == "H" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixtureRating.HomeOdds) <span class="glyphicon glyphicon-arrow-up"></span> @Html.DisplayFor(modelItem => fixtureRating.HomeValueOdds)</span></td>
+                <td class="text-center ftr"><span data-id="@fixtureRating.Fixture.FixtureId" data-outcome="D" data-odds="@fixtureRating.DrawOdds" class="selector btn @(fixtureRating.Valid == false ? "btn-default disabled" : fixtureRating.DrawOdds == 0 ? "btn-danger" : fixtureRating.Recommended == "D" ? "btn-success" : fixtureRating.LowerRecommended == "D" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixtureRating.DrawOdds) <span class="glyphicon glyphicon-arrow-up"></span> @Html.DisplayFor(modelItem => fixtureRating.DrawValueOdds)</span></td>
+                <td class="text-center ftr"><span data-id="@fixtureRating.Fixture.FixtureId" data-outcome="A" data-odds="@fixtureRating.AwayOdds" class="selector btn @(fixtureRating.Valid == false ? "btn-default disabled" : fixtureRating.AwayOdds == 0 ? "btn-danger" : fixtureRating.Recommended == "A" ? "btn-success" : fixtureRating.LowerRecommended == "A" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixtureRating.AwayOdds) <span class="glyphicon glyphicon-arrow-up"></span> @Html.DisplayFor(modelItem => fixtureRating.AwayValueOdds)</span></td>
+                <td class="text-center btts" style="display:none;"><span data-id="@fixtureRating.Fixture.FixtureId" data-outcome="Yes" data-odds="@fixtureRating.BothTeamsScoreYesOdds" class="selector btn @(fixtureRating.Valid == false ? "btn-default disabled" : fixtureRating.BothTeamsScoreYesOdds == 0 ? "btn-danger" : fixtureRating.RecommendedBothTeamsScore == "Yes" ? "btn-success" : fixtureRating.LowerRecommendedBothTeamsScore == "Yes" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixtureRating.BothTeamsScoreYesOdds) <span class="glyphicon glyphicon-arrow-up"></span> @Html.DisplayFor(modelItem => fixtureRating.BothTeamsScoreYesValueOdds)</span></td>
+                <td class="text-center btts" style="display:none;"><span data-id="@fixtureRating.Fixture.FixtureId" data-outcome="No" data-odds="@fixtureRating.BothTeamsScoreNoOdds" class="selector btn @(fixtureRating.Valid == false ? "btn-default disabled" : fixtureRating.BothTeamsScoreNoOdds == 0 ? "btn-danger" : fixtureRating.RecommendedBothTeamsScore == "No" ? "btn-success" : fixtureRating.LowerRecommendedBothTeamsScore == "No" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixtureRating.BothTeamsScoreNoOdds) <span class="glyphicon glyphicon-arrow-up"></span> @Html.DisplayFor(modelItem => fixtureRating.BothTeamsScoreNoValueOdds)</span></td>
+                <td class="text-center twogoals" style="display:none;"><span data-id="@fixtureRating.Fixture.FixtureId" data-outcome="Yes" data-odds="@fixtureRating.TwoGoalsYesOdds" class="selector btn @(fixtureRating.Valid == false ? "btn-default disabled" : fixtureRating.TwoGoalsYesOdds == 0 ? "btn-danger" : fixtureRating.RecommendedTwoGoals == "Yes" ? "btn-success" : fixtureRating.LowerRecommendedTwoGoals == "Yes" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixtureRating.TwoGoalsYesOdds) <span class="glyphicon glyphicon-arrow-up"></span> @Html.DisplayFor(modelItem => fixtureRating.TwoGoalsYesValueOdds)</span></td>
+                <td class="text-center twogoals" style="display:none;"><span data-id="@fixtureRating.Fixture.FixtureId" data-outcome="No" data-odds="@fixtureRating.TwoGoalsNoOdds" class="selector btn @(fixtureRating.Valid == false ? "btn-default disabled" : fixtureRating.TwoGoalsNoOdds == 0 ? "btn-danger" : fixtureRating.RecommendedTwoGoals == "No" ? "btn-success" : fixtureRating.LowerRecommendedTwoGoals == "No" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixtureRating.TwoGoalsNoOdds) <span class="glyphicon glyphicon-arrow-up"></span> @Html.DisplayFor(modelItem => fixtureRating.TwoGoalsNoValueOdds)</span></td>
+                <td class="text-center threegoals" style="display:none;"><span data-id="@fixtureRating.Fixture.FixtureId" data-outcome="Yes" data-odds="@fixtureRating.ThreeGoalsYesOdds" class="selector btn @(fixtureRating.Valid == false ? "btn-default disabled" : fixtureRating.ThreeGoalsYesOdds == 0 ? "btn-danger" : fixtureRating.RecommendedThreeGoals == "Yes" ? "btn-success" : fixtureRating.LowerRecommendedThreeGoals == "Yes" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixtureRating.ThreeGoalsYesOdds) <span class="glyphicon glyphicon-arrow-up"></span> @Html.DisplayFor(modelItem => fixtureRating.ThreeGoalsYesValueOdds)</span></td>
+                <td class="text-center threegoals" style="display:none;"><span data-id="@fixtureRating.Fixture.FixtureId" data-outcome="No" data-odds="@fixtureRating.ThreeGoalsNoOdds" class="selector btn @(fixtureRating.Valid == false ? "btn-default disabled" : fixtureRating.ThreeGoalsNoOdds == 0 ? "btn-danger" : fixtureRating.RecommendedThreeGoals == "No" ? "btn-success" : fixtureRating.LowerRecommendedThreeGoals == "No" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixtureRating.ThreeGoalsNoOdds) <span class="glyphicon glyphicon-arrow-up"></span> @Html.DisplayFor(modelItem => fixtureRating.ThreeGoalsNoValueOdds)</span></td>
+            </tr>
+        }
+    </table>
+
+    <div id="bet-slip" class="col-md-2" style="position:fixed;top:80px; right:20px;"></div>
+}
+
+<script>
+    $(function () {
+        $('#bet-type').change(function () {
+            if ($(this).val() == 'ftr') {
+                $('.btts').hide();
+                $('.twogoals').hide();
+                $('.threegoals').hide();
+                $('.ftr').fadeIn();
+            }
+            else if ($(this).val() == 'btts') {
+                $('.ftr').hide();
+                $('.twogoals').hide();
+                $('.threegoals').hide();
+                $('.btts').fadeIn();
+            }
+            else if ($(this).val() == 'twogoals') {
+                $('.ftr').hide();
+                $('.btts').hide();
+                $('.threegoals').hide();
+                $('.twogoals').fadeIn();
+            }
+            else if ($(this).val() == 'threegoals') {
+                $('.ftr').hide();
+                $('.btts').hide();
+                $('.twogoals').hide();
+                $('.threegoals').fadeIn();
+            }
+        });
+    });
+
+    $('.selector').on('click', function () {
+        var isSelected = $(this).hasClass('btn-primary');
+
+        $('.selector').each(function () {
+            $(this).removeClass('btn-primary');
+            $(this).closest('tr').removeClass('success');
+        });
+
+        if (!isSelected) {
+            $(this).addClass('btn-primary');
+            $(this).closest('tr').addClass('success');
+
+            if ($('#bet-type').val() == 'ftr'){
+                var fixtureId = $(this).data('id');
+                var outcome = $(this).data('outcome');
+                var odds = $(this).data('odds');
+
+                $.ajax({
+                    type: "GET",
+                    url: "Tracker/Betslip",
+                    data: { fixtureId: fixtureId, outcome: outcome, odds: odds },
+                    traditional: true,
+                    success: function (result) {
+                        $('#bet-slip').html(result);
+                    }
+                });
+            }  
+            else {
+                $('#bet-slip').empty();
+            }
+        }
+        else {
+        $('#bet-slip').empty();
+    }
+    });
+
+    $('.date-picker').on('click', function () {
+
+        var selected = $(this).data('id');
+        setView(selected);
+        $(this).addClass('btn-primary');
+    });
+
+    $(function () {
+        var selected = $('#today-id').first();
+
+        if (selected == null) {
+            selected = $('.date-picker').last();
+        }
+
+        setView(selected.data('id'));
+        selected.addClass('btn-primary');
+    });
+
+    function setView(selected) {
+
+        if (selected != null) {
+
+            $('.date-picker').each(function () {
+                $(this).removeClass('btn-primary');
+            });
+
+            $('.odds-line').each(function () {
+                if ($(this).data('id') != selected) {
+                    $(this).hide();
+                }
+                else {
+                    $(this).fadeIn();
+                }
+            });
+        }
+    }
+
+</script>
