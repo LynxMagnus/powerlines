@@ -1,6 +1,8 @@
 # Power Lines
 
-MVC application to calculate betting odds and identify and track value bets across major european leagues.
+Calculate betting odds and identify and track value bets across major european leagues.
+
+https://www.lynxmagnus.com/powerlines
 
 ## Status
 
@@ -8,10 +10,10 @@ MVC application to calculate betting odds and identify and track value bets acro
 
 ## Prerequisites
 
-Visual Studio
-SQL Server
-.Net Framework
+Visual Studio  
+SQL Server  
+.Net Framework  
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
