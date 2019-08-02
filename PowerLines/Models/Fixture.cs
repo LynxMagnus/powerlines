@@ -70,7 +70,7 @@ namespace PowerLines.Models
             }
         }
 
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
         public DateTime Date { get; set; }
 
         [Display(Name = "Home")]

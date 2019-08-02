@@ -51,9 +51,9 @@ namespace PowerLines.Inbound
                     fixtures.Add(new Fixture
                     {
                         Division = values[0].Trim(),
-                        Date = DateTime.Parse(values[1].Trim(), culture.DateTimeFormat),
-                        HomeTeam = values[2].Trim(),
-                        AwayTeam = values[3].Trim(),
+                        Date = DateTime.Parse(values[1].Trim(), culture.DateTimeFormat).Add(TimeSpan.Parse(values[2])),
+                        HomeTeam = values[3].Trim(),
+                        AwayTeam = values[4].Trim(),
                         HomeOddsAverage = homeAverage == -1 ? 0 : !string.IsNullOrEmpty(values[homeAverage].Trim()) ? decimal.Parse(values[homeAverage].Trim()) : 0,
                         DrawOddsAverage = drawAverage == -1 ? 0 : !string.IsNullOrEmpty(values[drawAverage].Trim()) ? decimal.Parse(values[drawAverage].Trim()) : 0,
                         AwayOddsAverage = awayAverage == -1 ? 0 : !string.IsNullOrEmpty(values[awayAverage].Trim()) ? decimal.Parse(values[awayAverage].Trim()) : 0

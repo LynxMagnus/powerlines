@@ -22,12 +22,12 @@ else
     <h3 class="twogoals" style="display:none;">Over 1.5 Goals</h3>
     <h3 class="threegoals" style="display:none;">Over 2.5 Goals</h3>
 
-    if (Model.Select(x => x.Fixture.Date).Distinct().Count() > 1)
+    if (Model.Select(x => x.Fixture.Date.Date).Distinct().Count() > 1)
     {
         <div class="row">
             <div class="col-md-12">
                 <div class="btn-group btn-group-justified">
-                    @foreach (var date in Model.Select(x => x.Fixture.Date).Distinct())
+                    @foreach (var date in Model.Select(x => x.Fixture.Date.Date).Distinct())
                     {
                         <a href="#" class="btn btn-default date-picker" data-id="@date.Date" id="@(date.Date == DateTime.Now.Date ? "today-id" : "")">@(date == DateTime.Now.Date ? "Today" : date.ToString("d MMM"))</a>
                     }
@@ -53,7 +53,7 @@ else
         </tr>
         @foreach (var fixtureRating in Model)
         {
-            <tr class="odds-line" data-id="@fixtureRating.Fixture.Date">
+            <tr class="odds-line" data-id="@fixtureRating.Fixture.Date.Date">
                 <td class="text-center no-mobile">@Html.DisplayFor(modelItem => fixtureRating.Fixture.Date)</td>
                 <td class="no-mobile">@Html.DisplayFor(modelItem => fixtureRating.Fixture.DivisionName)</td>
                 <td>@Html.DisplayFor(modelItem => fixtureRating.Fixture.HomeTeam) v @Html.DisplayFor(modelItem => fixtureRating.Fixture.AwayTeam)</td>
