@@ -29,13 +29,13 @@ namespace PowerLines.Inbound
                 {
                     switch(headers[i])
                     {
-                        case "BbAvH":
+                        case "AvgH":
                             homeAverage = i;
                             break;
-                        case "BbAvD":
+                        case "AvgD":
                             drawAverage = i;
                             break;
-                        case "BbAvA":
+                        case "AvgA":
                             awayAverage = i;
                             break;
                         default:
