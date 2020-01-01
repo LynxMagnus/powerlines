@@ -21,6 +21,7 @@ namespace PowerLines.Inbound
                 var header = reader.ReadLine();
                 var headers = header.Split(',');
 
+                int time = -1;
                 int homeAverage = -1;
                 int drawAverage = -1;
                 int awayAverage = -1;
@@ -29,6 +30,9 @@ namespace PowerLines.Inbound
                 {
                     switch (headers[i])
                     {
+                        case "Time":
+                            time = i;
+                            break;
                         case "BbAvH":
                             homeAverage = i;
                             break;
@@ -37,9 +41,9 @@ namespace PowerLines.Inbound
                             break;
                         case "BbAvA":
                             awayAverage = i;
-                            break;
+                            break;                        
                         default:
-                            break;
+                            break;                        
                     }
                 }
 
@@ -48,20 +52,27 @@ namespace PowerLines.Inbound
                     var line = reader.ReadLine();
                     var values = line.Split(',');
 
+                    if(time == -1)
+                    {
+                        var valuesList = values.ToList();
+                        valuesList.Insert(2, "0");
+                        values = valuesList.ToArray();
+                    }
+
                     if (values.Length > 5 && !string.IsNullOrEmpty(values[6]))
                     {
                         results.Add(new Result
                         {
                             Division = values[0].Trim(),
                             Date = DateTime.Parse(values[1].Trim(), culture.DateTimeFormat),
-                            HomeTeam = values[2].Trim(),
-                            AwayTeam = values[3].Trim(),
-                            FullTimeHomeGoals = int.Parse(values[4].Trim()),
-                            FullTimeAwayGoals = int.Parse(values[5].Trim()),
-                            FullTimeResult = values[6].Trim(),
-                            HalfTimeHomeGoals = values.Length > 7 && !string.IsNullOrEmpty(values[7].Trim()) ? int.Parse(values[7].Trim()) : 0,
-                            HalfTimeAwayGoals = values.Length > 7 && !string.IsNullOrEmpty(values[8].Trim()) ? int.Parse(values[8].Trim()) : 0,
-                            HalfTimeResult = values.Length > 7 && !string.IsNullOrEmpty(values[9].Trim()) ? values[9].Trim() : null,
+                            HomeTeam = values[3].Trim(),
+                            AwayTeam = values[4].Trim(),
+                            FullTimeHomeGoals = int.Parse(values[5].Trim()),
+                            FullTimeAwayGoals = int.Parse(values[6].Trim()),
+                            FullTimeResult = values[7].Trim(),
+                            HalfTimeHomeGoals = values.Length > 8 && !string.IsNullOrEmpty(values[8].Trim()) ? int.Parse(values[8].Trim()) : 0,
+                            HalfTimeAwayGoals = values.Length > 8 && !string.IsNullOrEmpty(values[9].Trim()) ? int.Parse(values[9].Trim()) : 0,
+                            HalfTimeResult = values.Length > 8 && !string.IsNullOrEmpty(values[10].Trim()) ? values[10].Trim() : null,
                             HomeOddsAverage = homeAverage == -1 ? 0 : !string.IsNullOrEmpty(values[homeAverage].Trim()) ? decimal.Parse(values[homeAverage].Trim()) : 0,
                             DrawOddsAverage = drawAverage == -1 ? 0 : !string.IsNullOrEmpty(values[drawAverage].Trim()) ? decimal.Parse(values[drawAverage].Trim()) : 0,
                             AwayOddsAverage = awayAverage == -1 ? 0 : !string.IsNullOrEmpty(values[awayAverage].Trim()) ? decimal.Parse(values[awayAverage].Trim()) : 0
