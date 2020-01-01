@@ -59,7 +59,7 @@ namespace PowerLines.Inbound
                         values = valuesList.ToArray();
                     }
 
-                    if (values.Length > 5 && !string.IsNullOrEmpty(values[6]))
+                    if (values.Length > 6 && !string.IsNullOrEmpty(values[7]))
                     {
                         results.Add(new Result
                         {
